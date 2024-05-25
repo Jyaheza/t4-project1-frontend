@@ -5,6 +5,10 @@ export default {
     return apiClient.get("users");
   },
 
+  getUserById(userId) {
+    return apiClient.get(`users/${userId}`);
+  },
+
   async addUser(user) {
     return await apiClient.post("users", user);
   },
