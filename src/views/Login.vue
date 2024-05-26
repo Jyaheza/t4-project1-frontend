@@ -36,6 +36,8 @@ async function createAccount() {
       snackbar.value.color = "green";
       snackbar.value.text = "Account created successfully!";
       router.push({ name: "login" });
+      user.value = {};
+      isCreateAccount.value = false;
     })
     .catch((error) => {
       console.log(error);
@@ -90,6 +92,7 @@ function closeSnackBar() {
           <v-text-field
             v-model="user.password"
             label="Password"
+            type="password"
             required
           ></v-text-field>
         </v-card-text>
@@ -141,6 +144,7 @@ function closeSnackBar() {
             <v-text-field
               v-model="user.password"
               label="Password"
+              type="password"
               required
             ></v-text-field>
           </v-card-text>
