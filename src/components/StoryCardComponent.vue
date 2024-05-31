@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const showStory = ref(false);
 
-const props = defineProps({
+defineProps({
     story: {
         required: true,
     },
