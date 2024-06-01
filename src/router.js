@@ -9,6 +9,14 @@ const router = createRouter({
       component: () => import("./views/Login.vue"),
     },
     {
+<<<<<<< HEAD
+=======
+      path: "/recipes",
+      name: "recipes",
+      component: () => import("./views/StoriesList.vue"),
+    },
+    {
+>>>>>>> 3c84306 (created view table)
       path: "/recipe/:id",
       name: "editRecipe",
       props: true,
