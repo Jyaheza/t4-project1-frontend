@@ -9,20 +9,14 @@ const router = createRouter({
       component: () => import("./views/Login.vue"),
     },
     {
-      path: "/recipe/:id",
-      name: "editRecipe",
-      props: true,
-      component: () => import("./views/EditRecipe.vue"),
-    },
-    {
-      path: "/ingredients",
-      name: "ingredients",
-      component: () => import("./views/IngredientList.vue"),
-    },
-    {
       path: "/maintain",
       name: "maintain",
       component: () => import("./views/StoryMaintain.vue"),
+    },
+    {
+      path: "/stories/:id",
+      name: "readStory",
+      component: () => import("./views/ReadStory.vue"),
     },
     {
       path: "/stories",

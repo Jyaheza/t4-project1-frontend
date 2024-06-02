@@ -8,7 +8,7 @@ export default {
     return apiClient.get(`stories/${userId}`);
   },
   getStory(id) {
-    return apiClient.get(`stories/${id}`);
+    return apiClient.get(`stories/read/${id}`);
   },
   addStory(userId) {
     return apiClient.post(`stories/${userId}`);

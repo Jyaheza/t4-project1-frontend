@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { ref } from "vue";
 import StoryCard from "../components/StoryCardComponent.vue";
 import StoryServices from "../services/StoryServices.js";
 
+const router = useRouter();
 const stories = ref([]);
 const isAdd = ref(false);
 const user = ref(null);
@@ -81,6 +83,11 @@ function closeAdd() {
 function closeSnackBar() {
   snackbar.value.value = false;
 }
+
+function viewStory(storyId) {
+    router.push({ name: 'readStory', params: { id: storyId } });
+}
+
 </script>
 
 <template>
@@ -94,7 +101,7 @@ function closeSnackBar() {
         </v-col>
       </v-row>
 
-      <StoryCard v-for="story in stories" :story="story" @deletedList="getLists()" />
+      <StoryCard v-for="story in stories" :story="story" @storySelected="viewStory" />
 
       <v-dialog persistent v-model="isAdd" width="800">
         <v-card class="rounded-lg elevation-5">
