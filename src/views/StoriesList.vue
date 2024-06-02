@@ -77,7 +77,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import RecipeCard from "../components/RecipeCardComponent.vue";
-//import RecipeServices from "../services/RecipeServices.js";
 
 const recipes = ref([]);
 const isAdd = ref(false);
@@ -109,50 +108,6 @@ onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
 });
 
-// async function getRecipes() {
-//   user.value = JSON.parse(localStorage.getItem("user"));
-//   if (user.value !== null && user.value.id !== null) {
-//     await RecipeServices.getRecipesByUserId(user.value.id)
-//       .then((response) => {
-//         recipes.value = response.data;
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         snackbar.value.value = true;
-//         snackbar.value.color = "error";
-//         snackbar.value.text = error.response.data.message;
-//       });
-//   } else {
-//     await RecipeServices.getRecipes()
-//       .then((response) => {
-//         recipes.value = response.data;
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         snackbar.value.value = true;
-//         snackbar.value.color = "error";
-//         snackbar.value.text = error.response.data.message;
-//       });
-//   }
-// }
-
-// async function addRecipe() {
-//   isAdd.value = false;
-//   newRecipe.value.userId = user.value.id;
-//   await RecipeServices.addRecipe(newRecipe.value)
-//     .then(() => {
-//       snackbar.value.value = true;
-//       snackbar.value.color = "green";
-//       snackbar.value.text = `${newRecipe.value.name} added successfully!`;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       snackbar.value.value = true;
-//       snackbar.value.color = "error";
-//       snackbar.value.text = error.response.data.message;
-//     });
-//   await getRecipes();
-// }
 
 async function addStory() {
   isAdd.value = false;
@@ -161,7 +116,7 @@ async function addStory() {
   snackbar.value.value = true;
   snackbar.value.color = "green";
   snackbar.value.text = `${newStory.value.setting} added successfully!`;
-  await getRecipes(); // If you want to refresh the recipe list or perform another action
+  await getRecipes(); 
 }
 
 function openAdd() {
