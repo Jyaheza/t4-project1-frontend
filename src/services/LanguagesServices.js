@@ -10,7 +10,7 @@ export default {
   addLanguages(language) {
     return apiClient.post("languages", language);
   },
-  updateLanguages(character) {
+  updateLanguages(language) {
     return apiClient.put("languages/" + language.id, language);
   },
   deleteLanguages(languageId) {
