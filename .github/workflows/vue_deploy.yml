@@ -11,10 +11,8 @@ jobs:
   aws-deploy:
     runs-on: ubuntu-latest
     #For google auth
-    steps:
-      - name: Check Secret Value
-        run: echo "The value of SERVER_SSH_KEY is ${{ secrets.SERVER_SSH_KEY }}"
 
+    steps:
       - uses: actions/checkout@v3
         with:
           ref: main
