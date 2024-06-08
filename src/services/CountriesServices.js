@@ -4,7 +4,7 @@ export default {
   getCountries() {
     return apiClient.get("countries");
   },
-  getCountries(id) {
+  getCountriesById(id) {
     return apiClient.get("countries/" + id);
   },
   addCountries(country) {
