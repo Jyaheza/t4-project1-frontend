@@ -17,6 +17,8 @@ function deleteStory() {
 
 function editStory() {
     alert('Edit story not implemented yet.');
+
+    
 }
 
 function generatePDF(){
