@@ -7,7 +7,7 @@ import vuetify from "vite-plugin-vuetify";
 
 export default () => {
   const baseURL =
-    process.env.APP_ENV === "development" ? "/" : "/recipe-frontend/";
+    process.env.APP_ENV === "development" ? "/" : "/storytime-frontend/";
 
   return defineConfig({
     plugins: [vue(), vuetify({ autoImport: true })],
