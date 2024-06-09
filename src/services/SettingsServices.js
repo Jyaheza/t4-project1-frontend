@@ -4,7 +4,7 @@ export default {
   getSettings() {
     return apiClient.get("settings");
   },
-  getSettings(id) {
+  getSettingsById(id) {
     return apiClient.get("settings/" + id);
   },
   addSettings(setting) {

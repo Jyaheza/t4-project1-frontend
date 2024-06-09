@@ -6,6 +6,7 @@ import UserServices from "../services/UserServices.js";
 
 const router = useRouter();
 const isCreateAccount = ref(false);
+let isLoading = ref(false);
 const snackbar = ref({
   value: false,
   color: "",
@@ -19,48 +20,49 @@ const user = ref({
 });
 
 onMounted(async () => {
-  localStorage.removeItem("user");
-  // if (localStorage.getItem("user") !== null) {
-  //   router.push({ name: "recipes" });
-  // }
+  if (localStorage.getItem("user") !== null) {
+    router.push({ name: "stories" });
+  }
 });
 
-function navigateToRecipes() {
-  router.push({ name: "recipes" });
-}
-
 async function createAccount() {
+  isLoading.value = true;
   await UserServices.addUser(user.value)
     .then(() => {
       snackbar.value.value = true;
-      snackbar.value.color = "green";
+      snackbar.value.color = "green";   
       snackbar.value.text = "Account created successfully!";
       router.push({ name: "login" });
       user.value = {};
       isCreateAccount.value = false;
+      isLoading.value = false;
     })
     .catch((error) => {
       console.log(error);
       snackbar.value.value = true;
       snackbar.value.color = "error";
       snackbar.value.text = error.response.data.message;
+      isLoading.value = false;
     });
 }
 
 async function login() {
+  isLoading.value = true;
   await UserServices.loginUser(user)
     .then((data) => {
       window.localStorage.setItem("user", JSON.stringify(data.data));
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "recipes" });
+      router.push({ name: "stories" });
+      isLoading.value = false;
     })
     .catch((error) => {
       console.log(error);
       snackbar.value.value = true;
       snackbar.value.color = "error";
       snackbar.value.text = error.response.data.message;
+      isLoading.value = false;
     });
 }
 
@@ -104,19 +106,6 @@ function closeSnackBar() {
 
           <v-btn variant="flat" color="primary" @click="login()">Login</v-btn>
         </v-card-actions>
-      </v-card>
-
-      <v-card class="rounded-lg elevation-5 my-8">
-        <v-card-title class="text-center headline">
-          <v-btn
-            class="ml-2"
-            variant="flat"
-            color="secondary"
-            @click="navigateToRecipes()"
-          >
-            View Published Recipes
-          </v-btn>
-        </v-card-title>
       </v-card>
 
       <v-dialog persistent v-model="isCreateAccount" width="800">

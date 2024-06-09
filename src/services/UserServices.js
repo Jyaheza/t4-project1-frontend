@@ -4,12 +4,13 @@ export default {
   getUser() {
     return apiClient.get("users");
   },
-  addUser(user) {
-    return apiClient.post("users", user);
+
+  async addUser(user) {
+    return await apiClient.post("users", user);
   },
-  loginUser(user) {
-    console.log(user);
-    return apiClient.post("login", user.value, {
+
+  async loginUser(user) {
+    return await apiClient.post("login", user.value, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

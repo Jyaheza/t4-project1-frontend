@@ -19,7 +19,7 @@ export default {
   deleteStory(storyId) {
     return apiClient.delete(`stories/${storyId}`);
   },
-  extendStory(storyId) {
-    return apiClient.post(`stories/extend/${storyId}`);
+  async extendStory(storyId, payload) {
+    return await apiClient.post(`stories/extend/${storyId}`, {"storyParams": payload});
   }
 };

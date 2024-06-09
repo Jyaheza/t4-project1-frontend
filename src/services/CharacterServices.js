@@ -4,7 +4,7 @@ export default {
   getCharacters() {
     return apiClient.get("characters");
   },
-  getCharacters(id) {
+  getCharactersById(id) {
     return apiClient.get("characters/" + id);
   },
   addCharacters(character) {
