@@ -61,7 +61,6 @@ async function getUser() {
           </tr>
         </thead>
         <tbody>
-          <!-- <tr v-for="item in users" :key="item.id"> -->
           <tr>
             <td>{{ users.firstName }} {{ users.lastName }}</td>
             <td>{{ users.email }}</td>
