@@ -10,6 +10,7 @@
     "@mdi/font": "^7.0.96",
     "axios": "^1.1.3",
     "cross-env": "^7.0.3",
+    "cypress": "^13.11.0",
     "eslint": "^8.28.0",
     "eslint-plugin-vue": "^9.7.0",
     "jspdf": "^2.5.1",

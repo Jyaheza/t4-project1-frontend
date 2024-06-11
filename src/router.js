@@ -48,6 +48,11 @@ const router = createRouter({
       name: "storypdf",
       component: () => import("./views/StoryPDF.vue"),
     },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/UserProfile.vue"),
+    },
   ],
 });
 
