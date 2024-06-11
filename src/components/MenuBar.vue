@@ -9,7 +9,6 @@ const router = useRouter();
 const user = ref(null);
 const title = ref("Bedtime Stories");
 const logoURL = ref("");
-const userURL = "http://localhost:8081/profile";
 
 onMounted(() => {
   logoURL.value = moonLogo;
@@ -29,12 +28,6 @@ function logout() {
   router.push({ name: "login" });
 }
 
-
-
-function redirectToLink(link) {
-  //TODO: get user profile
-  window.location = link;
-}
 </script>
 
 <template>
@@ -86,7 +79,7 @@ function redirectToLink(link) {
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn rounded variant="text" @click="redirectToLink(userURL)"> Profile </v-btn>
+              <v-btn rounded variant="text" @click="router.push({ name: 'profile'})"> Profile </v-btn>
               <v-btn rounded variant="text" @click="logout()"> Logout </v-btn>
             </div>
           </v-card-text>
