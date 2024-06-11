@@ -4,7 +4,7 @@ export default {
   getLanguages() {
     return apiClient.get("languages");
   },
-  getLanguages(id) {
+  getLanguagesById(id) {
     return apiClient.get("languages/" + id);
   },
   addLanguages(language) {
