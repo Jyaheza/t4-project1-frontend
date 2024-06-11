@@ -104,7 +104,7 @@ function closeSnackBar() {
           >
           <v-spacer></v-spacer>
 
-          <v-btn variant="flat" color="primary" @click="login()">Login</v-btn>
+          <v-btn variant="flat" color="primary" @click="login()">Sign in</v-btn>
         </v-card-actions>
       </v-card>
 
