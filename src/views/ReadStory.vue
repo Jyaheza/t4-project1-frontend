@@ -6,6 +6,7 @@ import StoryServices from "../services/StoryServices";
 import SettingsServices from "../services/SettingsServices";
 import CharacterServices from "../services/CharacterServices";
 import CountriesServices from "../services/CountriesServices";
+import StoryPDFServices from "../services/StoryPDFServices.js";
 
 const route = useRoute();
 const stories = ref([]);
@@ -74,8 +75,13 @@ function editStory() {
   alert('Edit story not implemented yet.');
 }
 
-function generatePDF() {
-  alert('PDF generation not implemented yet.');
+async function generateStoryPDF(storyId) {
+  try {
+    await StoryPDFServices.generateStoryPDF(storyId);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    alert('An error occurred while generating the PDF.');
+  }
 }
 
 async function addChapter() {
@@ -182,7 +188,7 @@ function toggleStory(index) {
             </v-icon>
             <v-icon class="mr-4" size="large" icon="mdi-pencil" @click.stop="editStory(story.id)">
             </v-icon>
-            <v-icon class="mr-4" size="large" icon="mdi-file-pdf-box" @click.stop="generatePDF(story.id)">
+            <v-icon class="mr-4" size="large" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId)">
             </v-icon>
             <v-btn @click.stop="openAddChapter()">Add chapter</v-btn>
           </div>

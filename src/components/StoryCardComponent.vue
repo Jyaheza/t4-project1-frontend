@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
+import StoryPDFServices from "../services/StoryPDFServices.js";
 
 const showStory = ref(false);
 
@@ -19,8 +20,13 @@ function editStory() {
     alert('Edit story not implemented yet.');   
 }
 
-function generatePDF(){
-    alert('PDF generation not implemented yet.');   
+async function generateStoryPDF(storyId) {
+  try {
+    await StoryPDFServices.generateStoryPDF(storyId);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    alert('An error occurred while generating the PDF.');
+  }
 }
 
 function navigateToStoryDetail() {
@@ -48,7 +54,7 @@ function navigateToStoryDetail() {
                     </v-icon>
                 </v-col>
                 <v-col cols="1" class="d-flex justify-end">
-                    <v-icon size="small" icon="mdi-file-pdf-box" @click.stop="generatePDF();">
+                    <v-icon size="small" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId);">
                     </v-icon>
                 </v-col>
             </v-row>
