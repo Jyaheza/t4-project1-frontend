@@ -10,8 +10,8 @@ export default {
   getStory(id) {
     return apiClient.get(`stories/read/${id}`);
   },
-  addStory(userId) {
-    return apiClient.post(`stories/${userId}`);
+  addStory(userId, storyParams) {
+    return apiClient.post(`stories/${userId}`,storyParams);
   },
   updateStory(storyId, story) {
     return apiClient.put(`stories/${storyId}`, story);

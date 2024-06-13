@@ -1,62 +1,43 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
 import StoryCard from "../components/StoryCardComponent.vue";
 import StoryServices from "../services/StoryServices.js";
+import CharacterServices from "../services/CharacterServices";
+import SettingsServices from "../services/SettingsServices.js";
+import CountriesServices from "../services/CountriesServices.js";
+import LanguagesServices from "../services/LanguagesServices.js";
+
 
 const router = useRouter();
 const stories = ref([]);
 const isAdd = ref(false);
 const user = ref(null);
-
+const loading = ref(false);
 const snackbar = ref({
   value: false,
   color: "",
   text: "",
 });
-
 const newStory = ref({
-  setting: '',
-  leadCharacterName: '',
-  leadCharacterSpecies: '',
-  secondaryCharacter: '',
-  characterObjective: '',
+  setting: "", 
+  country: "",
+  leadCharacter: "",
+  secondaryCharacter: "", 
+  storyLanguage: "" 
 });
 
-const leadCharacterNames = ['Character1', 'Character2', 'Character3'];
-const secondaryCharacters = ['Character1', 'Character2', 'Character3'];
+const leadCharacters = ref([]);
+const secondaryCharacters = ref([]);
+const settings = ref([]);
+const languages = ref([]);
+const countries = ref([]);
 
 onMounted(async () => {
-  getStories();
-  user.value = JSON.parse(localStorage.getItem("user"));
-});
-
-async function addStory() {
-  isAdd.value = false;
-  // Add logic to save the new story
-  console.log('New story added:', newStory.value);
-  snackbar.value.value = true;
-  snackbar.value.color = "green";
-  snackbar.value.text = `${newStory.value.setting} added successfully!`;
   await getStories();
-}
-
-function openAdd() {
-  isAdd.value = true;
-}
-
-function closeAdd() {
-  isAdd.value = false;
-}
-
-function closeSnackBar() {
-  snackbar.value.value = false;
-}
-
-function viewStory(storyId) {
-  router.push({ name: 'readStory', params: { id: storyId } });
-}
+  user.value = JSON.parse(localStorage.getItem("user"));
+  await loadDropdownData(); 
+});
 
 async function getStories() {
   user.value = JSON.parse(localStorage.getItem("user"));
@@ -85,6 +66,70 @@ async function getStories() {
   }
 }
 
+async function loadDropdownData() {
+  try {
+    const [charactersResponse, settingsResponse, languagesResponse, countryResponse] = await Promise.all([
+      CharacterServices.getCharacters(),
+      SettingsServices.getSettings(),
+      LanguagesServices.getLanguages(),
+      CountriesServices.getCountries()
+    ]);
+
+    leadCharacters.value = charactersResponse.data;
+    secondaryCharacters.value = charactersResponse.data;
+    settings.value = settingsResponse.data;
+    languages.value = languagesResponse.data;
+    countries.value = countryResponse.data;
+  } catch (error) {
+    console.log(error);
+    snackbar.value.value = true;
+    snackbar.value.color = "error";
+    snackbar.value.text = "Failed to load dropdown data.";
+  }
+}
+
+async function generateStory() {
+  loading.value = true;
+  try {
+    await StoryServices.addStory(user.value.id, {
+      storyParams: [
+        { key: 'setting', value: newStory.value.setting },
+        { key: 'country', value: newStory.value.country },
+        { key: 'lead character', value: newStory.value.leadCharacter },
+        { key: 'secondary character', value: newStory.value.secondaryCharacter },
+        { key: 'story language', value: newStory.value.storyLanguage },
+      ],
+    });
+    snackbar.value.value = true;
+    snackbar.value.color = "green";
+    snackbar.value.text = `Story added successfully!`;
+    closeAdd();
+  } catch (error) {
+    console.log(error);
+    snackbar.value.value = true;
+    snackbar.value.color = "error";
+    snackbar.value.text = error.response.data.message;
+  } finally {
+    loading.value = false;
+    await getStories();
+  }
+}
+
+function openAdd() {
+  isAdd.value = true;
+}
+
+function closeAdd() {
+  isAdd.value = false;
+}
+
+function closeSnackBar() {
+  snackbar.value.value = false;
+}
+
+function viewStory(storyId) {
+  router.push({ name: 'readStory', params: { id: storyId } });
+}
 </script>
 
 <template>
@@ -99,56 +144,61 @@ async function getStories() {
         </v-col>
       </v-row>
 
-      <StoryCard v-for="story in stories" :story="story" @click="viewStory(story.storyId)"/>
+      <StoryCard v-for="story in stories" :key="story.storyId" :story="story" @click="viewStory(story.storyId)"/>
 
       <v-dialog persistent v-model="isAdd" width="800">
         <v-card class="rounded-lg elevation-5">
           <v-card-title class="headline mb-2">Add Story</v-card-title>
           <v-card-text>
-            <v-text-field
-              v-model="newStory.setting"
-              label="Story Setting"
-              required
-            ></v-text-field>
-
             <v-select
-              v-model="newStory.leadCharacterName"
-              :items="leadCharacterNames"
-              label="Lead Character Name"
+              v-model="newStory.setting"
+              :items="settings.map(setting => setting.name)"
+              label="Story Setting"
               required
             ></v-select>
 
-            <v-text-field
-              v-model="newStory.leadCharacterSpecies"
-              label="Lead Character Species"
+            <v-select
+              v-model="newStory.country"
+              :items="countries.map(country => country.name)"
+              label="Country"
               required
-            ></v-text-field>
+            ></v-select>
+
+            <v-select
+              v-model="newStory.leadCharacter"
+              :items="leadCharacters.map(character => character.name)"
+              label="Lead Character"
+              required
+            ></v-select>
 
             <v-select
               v-model="newStory.secondaryCharacter"
-              :items="secondaryCharacters"
+              :items="secondaryCharacters.map(character => character.name)"
               label="Secondary Character"
               required
             ></v-select>
 
-            <v-text-field
-              v-model="newStory.characterObjective"
-              label="Character Objective"
+            <v-select
+              v-model="newStory.storyLanguage"
+              :items="languages.map(language => language.name)"
+              label="Story Language"
               required
-            ></v-text-field>
+            ></v-select>
+
+            <v-progress-linear v-if="loading" indeterminate color="blue" class="mb-2"></v-progress-linear>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn variant="flat" color="secondary" @click="closeAdd">Close</v-btn>
-            <v-btn variant="flat" color="primary" @click="addStory">Add Story</v-btn>
+            <v-btn :disabled="loading" variant="flat" color="primary" @click="generateStory">Add Story</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-
+      
       <v-snackbar v-model="snackbar.value" rounded="pill">
         {{ snackbar.text }}
         <template v-slot:actions>
-          <v-btn :color="snackbar.color" variant="text" @click="closeSnackBar">
+          <v-btn :color="snackbar.color" variant="text" @click="closeSnackBar()">
             Close
           </v-btn>
         </template>
@@ -156,3 +206,4 @@ async function getStories() {
     </div>
   </v-container>
 </template>
+

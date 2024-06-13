@@ -56,6 +56,7 @@ async function login() {
       snackbar.value.text = "Login successful!";
       router.push({ name: "stories" });
       isLoading.value = false;
+      router.push({ name: "stories" });
     })
     .catch((error) => {
       console.log(error);
