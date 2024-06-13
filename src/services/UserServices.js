@@ -9,6 +9,10 @@ export default {
     return apiClient.get(`users/${userId}`);
   },
 
+  updateUsers(user) {
+    return apiClient.put(`users/${user.id}`, user);
+  },
+
   async addUser(user) {
     return await apiClient.post("users", user);
   },
