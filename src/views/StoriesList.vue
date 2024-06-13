@@ -23,9 +23,7 @@ const newStory = ref({
   setting: "", 
   country: "",
   leadCharacter: "",
-  leadCharacterSpecies: "",
   secondaryCharacter: "", 
-  characterObjective: "",
   storyLanguage: "" 
 });
 
@@ -98,9 +96,7 @@ async function generateStory() {
         { key: 'setting', value: newStory.value.setting },
         { key: 'country', value: newStory.value.country },
         { key: 'lead character', value: newStory.value.leadCharacter },
-        { key: 'lead character species', value: newStory.value.leadCharacterSpecies },
         { key: 'secondary character', value: newStory.value.secondaryCharacter },
-        { key: 'character objective', value: newStory.value.characterObjective },
         { key: 'story language', value: newStory.value.storyLanguage },
       ],
     });
@@ -175,24 +171,12 @@ function viewStory(storyId) {
               required
             ></v-select>
 
-            <v-text-field
-              v-model="newStory.leadCharacterSpecies"
-              label="Lead Character Species"
-              required
-            ></v-text-field>
-
             <v-select
               v-model="newStory.secondaryCharacter"
               :items="secondaryCharacters.map(character => character.name)"
               label="Secondary Character"
               required
             ></v-select>
-
-            <v-text-field
-              v-model="newStory.characterObjective"
-              label="Character Objective"
-              required
-            ></v-text-field>
 
             <v-select
               v-model="newStory.storyLanguage"
