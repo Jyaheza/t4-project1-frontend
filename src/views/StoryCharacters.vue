@@ -3,23 +3,6 @@ import { onMounted } from "vue";
 import { ref } from "vue";
 import CharacterServices from "../services/CharacterServices.js";
 
-// const units = [
-//   "cup",
-//   "gallon",
-//   "gram",
-//   "kilogram",
-//   "liter",
-//   "milliliter",
-//   "ounce",
-//   "pint",
-//   "piece",
-//   "pound",
-//   "quart",
-//   "tablespoon",
-//   "teaspoon",
-//   "unit",
-// ];
-
 const characters = ref([]);
 const isAdd = ref(false);
 const isEdit = ref(false);

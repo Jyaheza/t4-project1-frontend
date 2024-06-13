@@ -50,7 +50,7 @@ async function addLanguage() {
       snackbar.value.color = "error";
       snackbar.value.text = error.response.data.message;
     });
-  await getCountries();
+  await getLanguages();
 }
 
 async function updateLanguage() {
@@ -67,7 +67,7 @@ async function updateLanguage() {
       snackbar.value.color = "error";
       snackbar.value.text = error.response.data.message;
     });
-  await getCountries();
+  await getLanguages();
 }
 
 function openAdd() {
