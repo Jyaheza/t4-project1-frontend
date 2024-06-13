@@ -26,7 +26,7 @@ const router = createRouter({
     {
       path: "/characters",
       name: "characters",
-      component: () => import("./views/StoryCharacterRoles.vue"),
+      component: () => import("./views/StoryCharacters.vue"),
     },
     {
       path: "/countries",
