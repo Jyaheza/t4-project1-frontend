@@ -13,6 +13,12 @@ const logoURL = ref("");
 onMounted(() => {
   logoURL.value = moonLogo;
   user.value = JSON.parse(localStorage.getItem("user"));
+  if (user.value != null)
+  {
+    // Make sure theres a user logged in and take the first name and last name of the user
+    user.value.firstName = JSON.parse(localStorage.getItem("menuBarFirst"));
+    user.value.lastName = JSON.parse(localStorage.getItem("menuBarLast"));
+  }
 });
 
 function logout() {
@@ -23,7 +29,10 @@ function logout() {
     .catch((error) => {
       console.log(error);
     });
+  // Release the local storage items
   localStorage.removeItem("user");
+  localStorage.removeItem("menuBarFirst");
+  localStorage.removeItem("menuBarLast");
   user.value = null;
   router.push({ name: "login" });
 }

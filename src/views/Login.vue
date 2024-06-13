@@ -50,6 +50,11 @@ async function login() {
   isLoading.value = true;
   await UserServices.loginUser(user)
     .then((data) => {
+      // Take the first and last name of the data from the window and set to a 
+      // storage called menuBar to display in the menu bar
+      window.localStorage.setItem("menuBarFirst", JSON.stringify(data.data.firstName)); 
+      window.localStorage.setItem("menuBarLast", JSON.stringify(data.data.lastName));
+      // Save the data of the users login to local storage user
       window.localStorage.setItem("user", JSON.stringify(data.data));
       snackbar.value.value = true;
       snackbar.value.color = "green";
