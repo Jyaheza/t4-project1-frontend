@@ -19,7 +19,7 @@ export default {
 
         var img = new Image();
 
-        img.src = "../../public/moon-logo-white.jpg";
+        img.src = "/public/moon-logo-white.jpg";
 
         doc.addImage(img, "JPG", 0.4, 0.4, 0.8, 0.8);
 
