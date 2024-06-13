@@ -35,8 +35,7 @@ function navigateToStoryDetail() {
             {{ `${story.title}` }}
         </v-card-title>
         <v-card-text class="body-1">
-            <span v-if="showStory">{{ story.story }}</span>
-            <span v-else>{{ `${story.story.substring(0, 100)}... ` }}</span>
+            {{ `${story.story.substring(0, 100)}... ` }}
         </v-card-text>
         <v-card-title class="headline">
             <v-row align="center">
