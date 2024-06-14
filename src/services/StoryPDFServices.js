@@ -17,12 +17,6 @@ export default {
         let stories = [];
         stories = await getStory(storyId);
 
-        var img = new Image();
-
-        img.src = "/public/moon-logo-white.jpg";
-
-        doc.addImage(img, "JPG", 0.4, 0.4, 0.8, 0.8);
-
         doc.setFontSize(16).text(stories.value[0].title, 1.75, 1);
 
         doc.setLineWidth(0.01).line(0.5, 1.5, 8.0, 1.5);
