@@ -16,6 +16,8 @@ const settings = ref([]);
 const characterNames = ref([]);
 const countries = ref([]);
 let nextChapterNumber = 0;
+const isEditStory = ref(false);
+let editedTitle = ref('');
 
 onMounted(async () => {
   await getStory();
@@ -61,6 +63,7 @@ async function getStory() {
       ...storyItem,
       index: index + 1,
     }));
+    editedTitle.value = stories.value[0].title;
     nextChapterNumber = stories.value.length + 1;
   } catch (error) {
     console.log("Error fetching stories:", error);
@@ -72,7 +75,7 @@ function deleteStory() {
 }
 
 function editStory() {
-  alert('Edit story not implemented yet.');
+  isEditStory.value = !isEditStory.value;
 }
 
 async function generateStoryPDF(storyId) {
@@ -135,6 +138,12 @@ async function getCountries() {
   }
 }
 
+async function saveStory(story, storyId) {
+  await StoryServices.updateStory(storyId, story);
+  isEditStory.value = false;
+  getStory();
+}
+
 const expandedStoryIndexes = ref([1]);
 
 function toggleStory(index) {
@@ -172,6 +181,23 @@ function toggleStory(index) {
   background-color: #fafafa;
   border-top: 1px solid #ddd;
 }
+
+.single-line-textarea {
+  resize: none;
+  overflow: visible;
+  height: auto;
+  border: 1px solid #ccc;
+  width: 70%;
+}
+
+.h2-textarea {
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1.2em;
+  padding: 0.2em 0.5em;
+  height: 1.75em;
+  background-color: white;
+}
 </style>
 
 <template>
@@ -179,19 +205,39 @@ function toggleStory(index) {
     <v-row v-for="(story, index) in stories" :key="story.id">
       <v-col cols="12">
         <div class="story-header elevation-3" @click="toggleStory(index + 1)">
-          <div class="story-title">
-            <h2 v-if="story.index === 1">{{ story.title }}</h2>
-            <h3 v-if="story.index > 1">{{ `Chapter ${story.index}` }}</h3>
-          </div>
-          <div v-if="story.index === 1" class="story-actions">
-            <v-icon class="mr-4" size="large" icon="mdi-delete" @click.stop="deleteStory(story.id)">
-            </v-icon>
-            <v-icon class="mr-4" size="large" icon="mdi-pencil" @click.stop="editStory(story.id)">
-            </v-icon>
-            <v-icon class="mr-4" size="large" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId)">
-            </v-icon>
-            <v-btn @click.stop="openAddChapter()">Add chapter</v-btn>
-          </div>
+          <v-row>
+            <v-col cols="12" md="8" lg="9" xl="10">
+              <div class="story-title">
+                <template v-if="story.index === 1">
+                  <div v-if="!isEditStory">
+                    <h2 class="d-inline">{{ story.title }}</h2>
+                    <v-icon class="ml-4 pb-2" size="large" icon="mdi-pencil" @click.stop="editStory"></v-icon>
+                  </div>
+                  <div class="pt-2" v-else>
+                    <textarea @click.stop v-model="editedTitle"
+                      class="single-line-textarea h2-textarea">{{ story.title }}</textarea>
+                    <div class="d-inline">
+                      <v-icon class="ml-4 pb-6" size="large" icon="mdi-content-save"
+                        @click.stop="saveStory({ storyID: story.storyId, userId: story.userId, story: story.story, title: editedTitle, parentId: story.parentId }, story.storyId)">
+                      </v-icon>
+                      <v-icon class="pb-6 pl-1" size="large" icon="mdi-cancel"
+                        @click.stop="isEditStory = false"></v-icon>
+                    </div>
+                  </div>
+                </template>
+                <h3 v-if="story.index > 1">{{ `Chapter ${story.index}` }}</h3>
+              </div>
+            </v-col>
+            <v-col cols="12" md="4" lg="3" xl=2>
+              <div v-if="story.index === 1" class="story-actions">
+                <v-icon class="mr-4" size="large" icon="mdi-delete" @click.stop="deleteStory(story.id)">
+                </v-icon>
+                <v-icon class="mr-4" size="large" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId)">
+                </v-icon>
+                <v-btn @click.stop="openAddChapter()">Add chapter</v-btn>
+              </div>
+            </v-col>
+          </v-row>
         </div>
         <div v-show="expandedStoryIndexes.includes(index + 1)" class="story-content">
           <div style="white-space: pre-line;" class="pt-5 pr-5 pl-5 pb-5 justify-content-xxl-center align-center">
