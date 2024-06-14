@@ -17,9 +17,9 @@ export default {
         let stories = [];
         stories = await getStory(storyId);
 
-        doc.setFontSize(16).text(stories.value[0].title, 1.75, 1);
+        doc.setFontSize(16).text(doc.splitTextToSize(stories.value[0].title, 7.5), .5, .75);
 
-        doc.setLineWidth(0.01).line(0.5, 1.5, 8.0, 1.5);
+        doc.setLineWidth(0.01).line(0.5, 1.25, 8.0, 1.25);
  
         stories.value.forEach(story => {
             let chapterText = '';
@@ -37,7 +37,7 @@ export default {
             chapterText += story.story;
 
             if(isFirstChapter){
-                doc.setFontSize(12).text(doc.splitTextToSize(chapterText, 7.5), .5, 1.9);
+                doc.setFontSize(12).text(doc.splitTextToSize(chapterText, 7.5), .5, 1.75);
             } else{
                 doc.setFontSize(12).text(doc.splitTextToSize(chapterText, 7.5), .5, .5);
             }
