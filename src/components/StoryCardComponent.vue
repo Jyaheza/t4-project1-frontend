@@ -16,10 +16,6 @@ function deleteStory() {
     alert('Delete story not implemented yet.')
 }
 
-function editStory() {
-    alert('Edit story not implemented yet.');   
-}
-
 async function generateStoryPDF(storyId) {
   try {
     await StoryPDFServices.generateStoryPDF(storyId);
@@ -47,10 +43,6 @@ function navigateToStoryDetail() {
             <v-row align="center">
                 <v-col cols="5" class="d-flex justify-end">
                     <v-icon size="small" icon="mdi-delete" @click.stop="deleteStory();">
-                    </v-icon>
-                </v-col>
-                <v-col cols="1" class="d-flex justify-end">
-                    <v-icon size="small" icon="mdi-pencil" @click.stop="editStory();">
                     </v-icon>
                 </v-col>
                 <v-col cols="1" class="d-flex justify-end">
