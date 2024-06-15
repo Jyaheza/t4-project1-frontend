@@ -70,8 +70,26 @@ async function getStory() {
   }
 }
 
-function deleteStory() {
-  alert('Delete story not implemented yet.')
+async function deleteStory(story, item) {
+
+  // Check if the portion is the parent of the story
+  if (story.parentId == null) {
+    // If it is the parent story, delete all the children stories
+    if(confirm("This will delete the whole story, continue?")) {
+      let i = item.length - 1;
+      while (i > -1) {
+        // Loop through all the stories and delete until there is no more
+        StoryServices.deleteStory(story.userId, item[i].storyId);
+        i--;
+      }
+    }
+
+  }
+  // Just delete a chapter
+  else if (confirm("Confirm deletion of Chapter " + story.index )) {
+    StoryServices.deleteStory(story.userId, story.storyId);
+  }
+  await getStory();
 }
 
 function editStory() {
@@ -230,12 +248,11 @@ function toggleStory(index) {
             </v-col>
             <v-col cols="12" md="4" lg="3" xl=2>
               <div v-if="story.index === 1" class="story-actions">
-                <v-icon class="mr-4" size="large" icon="mdi-delete" @click.stop="deleteStory(story.id)">
-                </v-icon>
                 <v-icon class="mr-4" size="large" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId)">
                 </v-icon>
                 <v-btn @click.stop="openAddChapter()">Add chapter</v-btn>
               </div>
+              <v-icon class="mr-4" size="large" icon="mdi-delete" @click.stop="deleteStory(story, stories)" ></v-icon>
             </v-col>
           </v-row>
         </div>

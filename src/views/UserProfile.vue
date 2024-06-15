@@ -59,6 +59,7 @@ async function updateUser() {
   // Update the local storage menu bar to display the new updated name
   localStorage.setItem("menuBarFirst", JSON.stringify(newUser.value.firstName));
   localStorage.setItem("menuBarLast", JSON.stringify(newUser.value.lastName));
+  localStorage.setItem("menuBarEmail", JSON.stringify(newUser.value.email));
   await UserServices.updateUsers(newUser.value) // Update the users new credentials
     .then(() => {
       snackbar.value.value = true;

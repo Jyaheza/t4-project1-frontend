@@ -70,6 +70,15 @@ async function updateSetting() {
   await getSettings();
 }
 
+async function deleteSetting(item)
+{
+  // Confirmation box if you want to delete the setting
+  if(confirm('Are you sure you want to delete ' + item.name)) {
+    SettingsServices.deleteSettings(item.id);
+  }
+  await getSettings();
+}
+
 function openAdd() {
   newSetting.value.name = undefined;
   isAdd.value = true;
@@ -92,6 +101,7 @@ function closeEdit() {
 function closeSnackBar() {
   snackbar.value.value = false;
 }
+
 </script>
 
 <template>
@@ -125,6 +135,11 @@ function closeSnackBar() {
                 size="small"
                 icon="mdi-pencil"
                 @click="openEdit(item)"
+              ></v-icon>
+              <v-icon
+                size="large"
+                icon="mdi-delete"
+                @click="deleteSetting(item)"
               ></v-icon>
             </td>
           </tr>

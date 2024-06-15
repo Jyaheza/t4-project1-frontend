@@ -18,6 +18,7 @@ onMounted(() => {
     // Make sure theres a user logged in and take the first name and last name of the user
     user.value.firstName = JSON.parse(localStorage.getItem("menuBarFirst"));
     user.value.lastName = JSON.parse(localStorage.getItem("menuBarLast"));
+    user.value.email = JSON.parse(localStorage.getItem("menuBarEmail"));
   }
 });
 

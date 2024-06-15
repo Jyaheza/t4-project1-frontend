@@ -2,8 +2,6 @@
 import { ref, defineProps, defineEmits } from 'vue';
 import StoryPDFServices from "../services/StoryPDFServices.js";
 
-const showStory = ref(false);
-
 const props = defineProps({
     story: {
         required: true,
@@ -11,10 +9,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['storySelected']);
-
-function deleteStory() {
-    alert('Delete story not implemented yet.')
-}
 
 async function generateStoryPDF(storyId) {
   try {
@@ -41,10 +35,6 @@ function navigateToStoryDetail() {
         </v-card-text>
         <v-card-title class="headline">
             <v-row align="center">
-                <v-col cols="5" class="d-flex justify-end">
-                    <v-icon size="small" icon="mdi-delete" @click.stop="deleteStory();">
-                    </v-icon>
-                </v-col>
                 <v-col cols="1" class="d-flex justify-end">
                     <v-icon size="small" icon="mdi-file-pdf-box" @click.stop="generateStoryPDF(story.storyId);">
                     </v-icon>
