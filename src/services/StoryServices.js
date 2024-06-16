@@ -16,8 +16,8 @@ export default {
   updateStory(storyId, story) {
     return apiClient.put(`stories/${storyId}`, story);
   },
-  deleteStory(storyId) {
-    return apiClient.delete(`stories/${storyId}`);
+  deleteStory(userId, storyId) {
+    return apiClient.delete(`users/${userId}/stories/${storyId}`);
   },
   async extendStory(storyId, payload) {
     return await apiClient.post(`stories/extend/${storyId}`, {"storyParams": payload});

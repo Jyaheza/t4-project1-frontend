@@ -70,6 +70,14 @@ async function updateCharacter() {
   await getCharacters();
 }
 
+async function deleteCharacter(item)
+{
+  if(confirm('Are you sure you want to delete ' + item.name)) {
+    CharacterServices.deleteCharacters(item.id);
+  }
+  await getCharacters();
+}
+
 function openAdd() {
   newCharacter.value.name = undefined;
   isAdd.value = true;
@@ -125,6 +133,11 @@ function closeSnackBar() {
                 size="small"
                 icon="mdi-pencil"
                 @click="openEdit(item)"
+              ></v-icon>
+              <v-icon
+                size="large"
+                icon="mdi-delete"
+                @click="deleteCharacter(item)"
               ></v-icon>
             </td>
           </tr>

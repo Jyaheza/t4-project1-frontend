@@ -54,6 +54,7 @@ async function login() {
       // storage called menuBar to display in the menu bar
       window.localStorage.setItem("menuBarFirst", JSON.stringify(data.data.firstName)); 
       window.localStorage.setItem("menuBarLast", JSON.stringify(data.data.lastName));
+      window.localStorage.setItem("menuBarEmail", JSON.stringify(data.data.email));
       // Save the data of the users login to local storage user
       window.localStorage.setItem("user", JSON.stringify(data.data));
       snackbar.value.value = true;

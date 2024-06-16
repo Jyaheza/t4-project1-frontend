@@ -70,6 +70,14 @@ async function updateLanguage() {
   await getLanguages();
 }
 
+async function deleteLanguage(item)
+{
+  if(confirm('Are you sure you want to delete ' + item.name)) {
+    LanguagesServices.deleteLanguages(item.id);
+  }
+  await getLanguages();
+}
+
 function openAdd() {
   newLanguage.value.name = undefined;
   isAdd.value = true;
@@ -92,6 +100,7 @@ function closeEdit() {
 function closeSnackBar() {
   snackbar.value.value = false;
 }
+
 </script>
 
 <template>
@@ -125,6 +134,11 @@ function closeSnackBar() {
                 size="small"
                 icon="mdi-pencil"
                 @click="openEdit(item)"
+              ></v-icon>
+              <v-icon
+                size="large"
+                icon="mdi-delete"
+                @click="deleteLanguage(item)"
               ></v-icon>
             </td>
           </tr>

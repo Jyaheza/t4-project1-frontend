@@ -70,6 +70,14 @@ async function updateCountry() {
   await getCountries();
 }
 
+async function deleteCountry(item)
+{
+  if(confirm('Are you sure you want to delete ' + item.name)) {
+    CountriesServices.deleteCountries(item.id);
+  }
+  await getCountries();
+}
+
 function openAdd() {
   newCountry.value.name = undefined;
   isAdd.value = true;
@@ -125,6 +133,11 @@ function closeSnackBar() {
                 size="small"
                 icon="mdi-pencil"
                 @click="openEdit(item)"
+              ></v-icon>
+              <v-icon
+                size="large"
+                icon="mdi-delete"
+                @click="deleteCountry(item)"
               ></v-icon>
             </td>
           </tr>
