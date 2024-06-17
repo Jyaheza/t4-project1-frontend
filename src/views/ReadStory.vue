@@ -2,12 +2,14 @@
 import { onMounted } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import StoryServices from "../services/StoryServices";
 import SettingsServices from "../services/SettingsServices";
 import CharacterServices from "../services/CharacterServices";
 import CountriesServices from "../services/CountriesServices";
 import StoryPDFServices from "../services/StoryPDFServices.js";
 
+const router = useRouter();
 const route = useRoute();
 const stories = ref([]);
 const isAdd = ref(false);
@@ -79,17 +81,18 @@ async function deleteStory(story, item) {
       let i = item.length - 1;
       while (i > -1) {
         // Loop through all the stories and delete until there is no more
-        StoryServices.deleteStory(story.userId, item[i].storyId);
+        await StoryServices.deleteStory(story.userId, item[i].storyId);
         i--;
       }
+      router.push({name: "stories"});
     }
 
   }
   // Just delete a chapter
   else if (confirm("Confirm deletion of Chapter " + story.index )) {
-    StoryServices.deleteStory(story.userId, story.storyId);
+    await StoryServices.deleteStory(story.userId, story.storyId);
+    await getStory();
   }
-  await getStory();
 }
 
 function editStory() {
